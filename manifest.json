@@ -3,22 +3,45 @@
     "name": "LeetSpeak2.0",
     "version": "1.0",
     "description": "Adds a red border to all webpages matching mozilla.org.",
+
+    "default_locale": "en",
+    "background": {
+        "scripts": [
+            "scripts/background.js"
+        ]
+    },
+    "permissions": [
+        "tabs",
+        "storage",
+        "http://*/*",
+        "https://*/*"
+    ],
+    "options_ui": {
+        "page": "options.html"
+    },
     "content_scripts": [
         {
             "matches": [
-                "*://*/"
+                "http://*/*",
+                "https://*/*"
             ],
             "js": [
-                "leet.js"
-            ]
+                "scripts/leet.js"
+            ],
+            "run_at": "document_end",
+            "all_frames": false
         }
     ],
-    "icons": {
-        "48": "./icons/icon.png"
+    "browser_action": {
+        "default_icon": {
+            "48": "icons/icon.png"
+        },
+        "default_title": "LeetSpeak2",
+        "default_popup": "popup.html"
     },
     "applications": {
         "gecko": {
-            "id": "leetspeak@example.com"
+            "id": "leetspeak@hashbang.com"
         }
     }
 }
