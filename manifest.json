@@ -1,0 +1,24 @@
+{
+    "manifest_version": 2,
+    "name": "LeetSpeak2.0",
+    "version": "1.0",
+    "description": "Adds a red border to all webpages matching mozilla.org.",
+    "content_scripts": [
+        {
+            "matches": [
+                "*://*/"
+            ],
+            "js": [
+                "leet.js"
+            ]
+        }
+    ],
+    "icons": {
+        "48": "./icons/icon.png"
+    },
+    "applications": {
+        "gecko": {
+            "id": "leetspeak@example.com"
+        }
+    }
+}
