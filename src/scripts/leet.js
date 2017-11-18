@@ -80,6 +80,15 @@ var replacements = {
     '=': ['=', '⚌', 'ニ']
 }
 
+// Reverse replacements
+var originals = Object.keys(replacements).reduce((memo, k) => {replacements[k].forEach((v) => memo[v] = k); return memo}, {})
+
+function leetspeakParser(s, mappings) {
+    return Object.keys(mappings).reduce((s, k) => {         
+        var r = getRandomArrayElem(mappings[k])        
+        return s.replace(k, r)
+    }, s)
+}
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
@@ -87,20 +96,22 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
+function getRandomArrayElem(a) {
+    if (typeof(a) === 'string') {
+        a = [a]
+    }
+    return a[getRandomInt(0, a.length)]
+}
+
 function leetspeakv2(e) {
     storage.get('enabled')
-        .then((data) => {
+        .then((data) => {            
+
             if (data.enabled) {
-                this.value = this.value.split('').map((x) => {
-                    var r = replacements[x]
-
-                    if (r !== undefined) {
-                        return r[getRandomInt(0, r.length)]
-                    }
-
-                    return x
-                }).join('')
+                var o = leetspeakParser(this.value, originals)
+                this.value = leetspeakParser(o, replacements)
             }
+
         })
 }
 
