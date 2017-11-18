@@ -35,8 +35,10 @@ var replacements = {
     //Uppercase
     'B': ['B', 'ß'],
     'T': ['イ'],
+    'V': ['V', `\\/`],
     'W': ['W', 'VV']
 }
+
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
