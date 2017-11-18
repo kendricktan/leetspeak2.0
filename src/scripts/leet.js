@@ -4,22 +4,22 @@ var replacements = {
     'ffi': ['ffi', 'ﬃ'],
     'ffl': ['ffl', 'ﬄ'],
 
-	'aa': ['aa', 'ꜳ'],
-	'ae': ['ae', 'æ'],
-	'ao': ['ao', 'ꜵ'],
-	'db': ['db', 'ȸ'],
-	'dz': ['dz', 'ʣ'],
-	'ff': ['ff', 'ﬀ'],
-	'fi': ['fi', 'ﬁ'],
-	'fl': ['fl', 'ﬂ'],
-	'ij': ['ij', 'ĳ'],
-	'oe': ['oe', 'œ'],
-	'oo': ['oo', 'ꝏ'],
-	'st': ['st', 'ﬆ'],
-	'ue': ['ue', 'ᵫ'],
-	'vy': ['vy', 'ꝡ'],
+    'aa': ['aa', 'ꜳ'],
+    'ae': ['ae', 'æ'],
+    'ao': ['ao', 'ꜵ'],
+    'db': ['db', 'ȸ'],
+    'dz': ['dz', 'ʣ'],
+    'ff': ['ff', 'ﬀ'],
+    'fi': ['fi', 'ﬁ'],
+    'fl': ['fl', 'ﬂ'],
+    'ij': ['ij', 'ĳ'],
+    'oe': ['oe', 'œ'],
+    'oo': ['oo', 'ꝏ'],
+    'st': ['st', 'ﬆ'],
+    'ue': ['ue', 'ᵫ'],
+    'vy': ['vy', 'ꝡ'],
 
-	//Lowercase
+    //Lowercase
     'a': ['a', 'à', 'á', 'â', 'ä', 'ã', 'å', 'ā', 'α'],
     'b': ['b', 'Ь'],
     'c': ['c', 'ç', 'ć', 'č', 'c'],
@@ -43,12 +43,12 @@ var replacements = {
     'u': ['u', 'û', 'ü', 'ù', 'ú', 'ū', '⨆', 'υ'],
     'v': ['v', '⩒', '⩡', 'ν'],
     'w': ['w', '⧢', 'ω'],
-    'x': ['x', '✕', '✖', '✗', '✘'], 
+    'x': ['x', '✕', '✖', '✗', '✘'],
     'y': ['y', 'ÿ', 'ȳ', 'γ'],
     'z': ['z', 'ž', 'ź', 'ż'],
 
     '1': ['1', '➀', '➊'],
-	'2': ['2', '➁', '➋'],
+    '2': ['2', '➁', '➋'],
     '3': ['3', '➂', '➌'],
     '4': ['4', '➃', '➍'],
     '5': ['5', '➄', '➎'],
@@ -84,11 +84,11 @@ var replacements = {
 }
 
 // Reverse replacements
-var originals = Object.keys(replacements).reduce((memo, k) => {replacements[k].forEach((v) => memo[v] = k); return memo}, {})
+var originals = Object.keys(replacements).reduce((memo, k) => { replacements[k].forEach((v) => memo[v] = k); return memo }, {})
 
 function leetspeakParser(s, mappings) {
-    return Object.keys(mappings).reduce((s, k) => {         
-        var r = getRandomArrayElem(mappings[k])        
+    return Object.keys(mappings).reduce((s, k) => {
+        var r = getRandomArrayElem(mappings[k])
         return s.replace(k, r)
     }, s)
 }
@@ -100,7 +100,7 @@ function getRandomInt(min, max) {
 }
 
 function getRandomArrayElem(a) {
-    if (typeof(a) === 'string') {
+    if (typeof (a) === 'string') {
         a = [a]
     }
     return a[getRandomInt(0, a.length)]
@@ -108,12 +108,12 @@ function getRandomArrayElem(a) {
 
 function leetspeakv2(e) {
     storage.get('enabled')
-    .then((data) => {
-        if (data.enabled) {
-            var o = leetspeakParser(this.value, originals)
-            this.value = leetspeakParser(o, replacements)
-        }
-    })
+        .then((data) => {
+            if (data.enabled) {
+                var o = leetspeakParser(this.value, originals)
+                this.value = leetspeakParser(o, replacements)
+            }
+        })
 }
 
 // its a hackathon
@@ -135,33 +135,39 @@ window.onload = function () {
     }
 
     // Twitter every 0.5 seconds
-    var twitterTimeline = document.getElementById('tweet-box-home-timeline')    
+    var twitterTimeline = document.getElementById('tweet-box-home-timeline')
     twitterTimeline.contentEditable = true
-    setInterval((e) => {    
-        var o = leetspeakParser(twitterTimeline.innerText, originals).replace(/\s+$/, '')    
-        if (tempVar !== o) {
-            tempVar = o            
-            twitterTimeline.innerHTML = leetspeakParser(o, replacements)            
-            placeCaretAtEnd(twitterTimeline)
-        }        
+    setInterval((e) => {
+        storage.get('enabled')
+            .then((data) => {
+                if (data.enabled) {
+
+                    var o = leetspeakParser(twitterTimeline.innerText, originals).replace(/\s+$/, '')
+                    if (tempVar !== o) {
+                        tempVar = o
+                        twitterTimeline.innerHTML = leetspeakParser(o, replacements)
+                        placeCaretAtEnd(twitterTimeline)
+                    }
+                }
+            })
     }, 10)
 
     function placeCaretAtEnd(el) {
         el.focus();
         if (typeof window.getSelection != "undefined"
-                && typeof document.createRange != "undefined") {
+            && typeof document.createRange != "undefined") {
             var range = document.createRange();
             range.selectNodeContents(el);
             range.collapse(false);
             var sel = window.getSelection();
             sel.removeAllRanges();
-            sel.addRange(range);            
+            sel.addRange(range);
         } else if (typeof document.body.createTextRange != "undefined") {
             var textRange = document.body.createTextRange();
             textRange.moveToElementText(el);
             textRange.collapse(false);
-            textRange.select();            
+            textRange.select();
         }
     }
-   
+
 }
