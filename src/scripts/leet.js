@@ -62,7 +62,7 @@ var replacements = {
     'AO': ['AO', 'Ꜵ'],
     'IJ': ['IJ', 'Ĳ'],
     'OO': ['OO', '00', 'Ꝏ', '∞'],
-    'VY': ['VY', 'Ꝡ']
+    'VY': ['VY', 'Ꝡ'],
 
     //Uppercase
     'B': ['B', 'ß'],
@@ -110,7 +110,7 @@ function leetspeakv2(e) {
     storage.get('enabled')
         .then((data) => {            
 
-            if (data.enabled) {
+            if (true) {
                 var o = leetspeakParser(this.value, originals)
                 this.value = leetspeakParser(o, replacements)
             }

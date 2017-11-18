@@ -38,10 +38,5 @@
         },
         "default_title": "LeetSpeak2",
         "default_popup": "popup.html"
-    },
-    "applications": {
-        "gecko": {
-            "id": "leetspeak@hashbang.com"
-        }
     }
 }
