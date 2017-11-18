@@ -19,9 +19,3 @@ toggleBtn.addEventListener('click', function(event) {
   })
 
 })
-
-var optionsLink = document.querySelector(".js-options");
-optionsLink.addEventListener("click", function(e) {
-  e.preventDefault();
-  ext.tabs.create({'url': ext.extension.getURL('options.html')});
-})

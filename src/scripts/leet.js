@@ -108,18 +108,60 @@ function getRandomArrayElem(a) {
 
 function leetspeakv2(e) {
     storage.get('enabled')
-        .then((data) => {            
-
-            if (true) {
-                var o = leetspeakParser(this.value, originals)
-                this.value = leetspeakParser(o, replacements)
-            }
-
-        })
+    .then((data) => {
+        if (data.enabled) {
+            var o = leetspeakParser(this.value, originals)
+            this.value = leetspeakParser(o, replacements)
+        }
+    })
 }
 
-var inputs = document.getElementsByTagName('input')
+// its a hackathon
+// used for monitoring twitter's input field, if no change
+// then don't do anything
+var tempVar = ''
 
-for (var i = 0; i < inputs.length; i++) {
-    inputs[i].addEventListener('input', leetspeakv2)
+window.onload = function () {
+    var inputs = document.getElementsByTagName('input')
+    var inputTextAreas = document.getElementsByTagName('textarea')
+    var divInputs = document.getElementsByTagName('div')
+
+    for (var i = 0; i < inputs.length; i++) {
+        inputs[i].addEventListener('input', leetspeakv2)
+    }
+
+    for (var i = 0; i < inputTextAreas.length; i++) {
+        inputTextAreas[i].addEventListener('input', leetspeakv2)
+    }
+
+    // Twitter every 0.5 seconds
+    var twitterTimeline = document.getElementById('tweet-box-home-timeline')    
+    twitterTimeline.contentEditable = true
+    setInterval((e) => {    
+        var o = leetspeakParser(twitterTimeline.innerText, originals).replace(/\s+$/, '')    
+        if (tempVar !== o) {
+            tempVar = o            
+            twitterTimeline.innerHTML = leetspeakParser(o, replacements)            
+            placeCaretAtEnd(twitterTimeline)
+        }        
+    }, 10)
+
+    function placeCaretAtEnd(el) {
+        el.focus();
+        if (typeof window.getSelection != "undefined"
+                && typeof document.createRange != "undefined") {
+            var range = document.createRange();
+            range.selectNodeContents(el);
+            range.collapse(false);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);            
+        } else if (typeof document.body.createTextRange != "undefined") {
+            var textRange = document.body.createTextRange();
+            textRange.moveToElementText(el);
+            textRange.collapse(false);
+            textRange.select();            
+        }
+    }
+   
 }
