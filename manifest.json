@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "LeetSpeak2.0",
     "version": "1.0",
-    "description": "Adds a red border to all webpages matching mozilla.org.",
+    "description": "Cryptography that is readable by humans but not by machines.",
 
     "default_locale": "en",
     "background": {
