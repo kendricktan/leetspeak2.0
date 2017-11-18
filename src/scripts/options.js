@@ -1,5 +1,5 @@
-import ext from "./utils/ext";
-import storage from "./utils/storage";
+var ext = require("./utils/ext")
+var storage = require("./utils/storage")
 
 var colorSelectors = document.querySelectorAll(".js-radio");
 
@@ -8,6 +8,7 @@ var setColor = (color) => {
 };
 
 storage.get('color', function(resp) {
+  alert(JSON.stringify(resp))
   var color = resp.color;
   var option;
   if(color) {

@@ -1,6 +1,8 @@
+var storage = require("./utils/storage")
+
 var replacements = {
-	'ffi': ['ffi', 'ﬃ'],
-	'ffl': ['ffl', 'ﬄ'],
+    'ffi': ['ffi', 'ﬃ'],
+    'ffl': ['ffl', 'ﬄ'],
 
 	'aa': ['aa', 'ꜳ'],
 	'ae': ['ae', 'æ'],
@@ -85,16 +87,21 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min)) + min; //The maximum is exclusive and the minimum is inclusive
 }
 
-function leetspeakv2(e) {    
-    this.value = this.value.split('').map((x) => {
-        var r = replacements[x]
+function leetspeakv2(e) {
+    storage.get('enabled')
+        .then((data) => {
+            if (data.enabled) {
+                this.value = this.value.split('').map((x) => {
+                    var r = replacements[x]
 
-        if (r !== undefined) {
-            return r[getRandomInt(0, r.length)]
-        }
+                    if (r !== undefined) {
+                        return r[getRandomInt(0, r.length)]
+                    }
 
-        return x
-    }).join('')
+                    return x
+                }).join('')
+            }
+        })
 }
 
 var inputs = document.getElementsByTagName('input')
